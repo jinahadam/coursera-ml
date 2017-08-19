@@ -6,25 +6,26 @@ function [J, grad] = costFunction(theta, X, y)
 
 % Initialize some useful values
 m = length(y); % number of training examples
+n = size(X,2); % number of features
+h = zeros(m,1);
 
-% You need to return the following variables correctly 
 J = 0;
-grad = zeros(size(theta));
+grad = zeros(n,1);
 
-% ====================== YOUR CODE HERE ======================
-% Instructions: Compute the cost of a particular choice of theta.
-%               You should set J to the cost.
-%               Compute the partial derivatives and set grad to the partial
-%               derivatives of the cost w.r.t. each parameter in theta
-%
-% Note: grad should have the same dimensions as theta
-%
+for i = 1:m
+    
+    d = X(i,:) * theta;
+    h(i) = 1.0/(1.0 + exp(-d));
+
+end    
 
 
 
+J = (-1.0/m) * sum(y .* log(h) + (1-y) .* log(1-h));
 
-
-
+for j = 1:n    
+    grad(j) = (1.0/m )* sum((h-y)' * X(:,j));
+end    
 
 
 % =============================================================
